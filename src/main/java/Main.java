@@ -12,23 +12,22 @@ public class Main {
     private static final List<Post> posts = new CopyOnWriteArrayList<>();
 
     public static void main(String[] args) {
-        Post post1 = new Post(10, "один");
+        Post post1 = new Post(0, "один");
         Post post2 = new Post(0, "два");
         Post post3 = new Post(0, "три");
         Post post4 = new Post(0, "четыре");
         Post post5 = new Post(0, "пять");
         Post post6 = new Post(0, "шесть");
         Post post7 = new Post(0, "семь");
-        Post post8 = new Post(10, "восемь");
+        Post post8 = new Post(0, "восемь");
 
         save(post1);
         save(post2);
         save(post3);
+        removeById(1);
+        removeById(2);
+        removeById(3);
         save(post4);
-        save(post5);
-        save(post6);
-        save(post7);
-        save(post8);
 
 
         for (Post post : posts) {
@@ -73,7 +72,7 @@ public class Main {
             } else {                            //иначе, если пришел пост с id != 0, то
                 if (usedId.contains(post.getId())) {        //смотрим, есть ли уже такой id в списке использованных, если да, то
                     for (Post post1 : posts) {              //ищем пост с таким же id
-                        if (post1.getId() == post.getId() && !post1.getContent().equals(post.getContent())) { //коогда найдется пост с таким же id, сравниваем контент, если контент разный, то
+                        if (post1.getId() == post.getId() && !post1.getContent().equals(post.getContent())) { //когда найдется пост с таким же id, сравниваем контент, если контент разный, то
                             posts.remove(post1);            //удаляем старый пост из списка
                             posts.add(post);                //добавляем новый посто в список
                         }
@@ -95,8 +94,10 @@ public class Main {
                     freeId.add(id);
                 }
             }
-        } else {
-            System.out.println("Пост не найден");
+        }
+        if (posts.isEmpty()) {
+            newId.set(1);
+            freeId.clear();
         }
     }
 }
